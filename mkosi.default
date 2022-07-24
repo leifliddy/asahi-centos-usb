@@ -1,26 +1,24 @@
 [Distribution]
-Distribution=fedora
-Release=36
+Distribution=centos
+Release=9-stream
 Architecture=aarch64
 UseHostRepositories=yes
-Repositories=fedora,updates,asahi-linux
+Repositories=baseos,appstream,crb,asahi-linux
 
 [Output]
 Format=directory
 Output=mkosi.rootfs
 Bootable=no
-Hostname=fedora
+Hostname=centosstream
 
 [Content]
 WithDocs=True
 Packages=
     asahi-fwextract
     asahi-scripts
-    arch-install-scripts
     audit
     bash-completion
     binutils
-    btrfs-progs
     cloud-utils-growpart
     dhcp-client
     diffutils
@@ -29,7 +27,6 @@ Packages=
     dnf-plugins-core
     e2fsprogs
     efivar
-    f2fs-tools
     findutils
     grub2-efi-aa64
     grub2-efi-aa64-modules
@@ -37,7 +34,6 @@ Packages=
     hostname
     iproute
     iputils
-    iwd
     kernel
     kmod
     linux-firmware
@@ -53,12 +49,12 @@ Packages=
     rpm
     rsync
     sudo
-    systemd-networkd
     tar
     usbutils
     vim-minimal
     vim-enhanced
     wget
+    zram-generator
 
 [Validation]
-Password=fedora
+Password=centosstream
