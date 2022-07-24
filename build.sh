@@ -88,8 +88,8 @@ prepare_usb_device() {
     # root parition will take up all remaining space
     echo -e 'o\ny\nn\n\n\n+600M\nef00\nn\n\n\n+1G\n8300\nn\n\n\n\n8300\nw\ny\n' | gdisk "$usb_device"
     mkfs.vfat -F 32 -n 'EFI-USB-FED' -i $(echo $EFI_UUID | tr -d '-') "$usb_device"1
-    mkfs.f2fs -O extra_attr,inode_checksum,compression  -l 'fedora-usb-boot' -U $BOOT_UUID -f "$usb_device"2
-    mkfs.f2fs -O extra_attr,inode_checksum,compression  -l 'fedora-usb-boot' -U $ROOT_UUID -f "$usb_device"3
+    mkfs.ext4 -O '^metadata_csum' -U $BOOT_UUID -L 'fedora-usb-boot' -F "$usb_device"2 || mkfs.ext4 -O '^metadata_csum' -U $BOOT_UUID -L 'fedora-usb-boot' -F "$usb_device"p2
+    mkfs.ext4 -O '^metadata_csum' -U $ROOT_UUID -L 'fedora-usb-root' -F "$usb_device"3 || mkfs.ext4 -O '^metadata_csum' -U $ROOT_UUID -L 'fedora-usb-root' -F "$usb_device"p3
     systemctl daemon-reload
 
     if [ $(blkid | egrep -i "$EFI_UUID|$BOOT_UUID|$ROOT_UUID" | wc -l) -ne 3 ]; then
@@ -133,14 +133,12 @@ install_usb() {
     arch-chroot $mnt_usb /image.creation/update-grub
     echo "### Creating BLS (/boot/loader/entries/) entry..."
     chroot $mnt_usb /image.creation/create.bls.entry
-    echo "### Configuring system services..."
-    chroot $mnt_usb /image.creation/setup-services
     echo "### Enabling system services..."
     chroot $mnt_usb systemctl enable sshd.service
     echo "### Disabling systemd-firstboot..."
     chroot $mnt_usb rm -f /usr/lib/systemd/system/sysinit.target.wants/systemd-firstboot.service
     echo "### Restoring centos.repo..."
-    chroot $image_mnt mv /etc/yum.repos.d/centos.repo.rpmnew /etc/yum.repos.d/centos.repo
+    chroot $mnt_usb mv /etc/yum.repos.d/centos.repo.rpmnew /etc/yum.repos.d/centos.repo
     rm -f  $mnt_usb/etc/machine-id
     rm -rf $mnt_usb/image.creation
     # remove .gitignore file
@@ -154,6 +152,6 @@ install_usb() {
     echo '### Done'
 }
 
-prepare_usb_device
+#prepare_usb_device
 mkosi_create_rootfs
 install_usb
