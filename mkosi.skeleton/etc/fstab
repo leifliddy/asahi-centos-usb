@@ -1,0 +1,3 @@
+UUID=EFI_UUID_PLACEHOLDER                            /boot/efi               vfat  umask=0077,shortname=winnt 0 2
+UUID=ROOT_UUID_PLACEHOLDER /                       f2fs  zstd:6,compress_chksum,atgc,gc_merge,lazytime 0 1
+UUID=BOOT_UUID_PLACEHOLDER /boot                   f2fs  zstd:6,compress_chksum,atgc,gc_merge,lazytime 0 2
