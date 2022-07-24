@@ -152,6 +152,6 @@ install_usb() {
     echo '### Done'
 }
 
-#prepare_usb_device
+prepare_usb_device
 mkosi_create_rootfs
 install_usb
