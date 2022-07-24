@@ -15,7 +15,7 @@ cp -r /usr/lib/grub/arm64-efi $GRUB_DIR/arm64-efi/
 
 uuid=$(grub2-probe $BOOT_PART -t fs_uuid)
 
-if [ -z "$uuid" ]; then
+if [ -z $uuid ]; then
     echo "Error: Unable to determine root filesystem UUID"
     exit 1
 fi
@@ -23,7 +23,7 @@ fi
 boot_dev_path=$(blkid -U $uuid)
 boot_fstype=$(blkid -s TYPE -o value $boot_dev_path)
 
-# a boot btrfs subvolume requires a preceeding /boot
+# a boot btrfs subvolume requires a preceding /boot
 if [ $boot_fstype == 'btrfs' ]; then
     PREFIX_GRUB_DIR=$GRUB_DIR
 else
@@ -34,7 +34,7 @@ echo "UUID: $uuid"
 
 cat > /tmp/grub-core.cfg <<EOF
 search.fs_uuid $uuid root
-set prefix=(\$root)$GRUB_DIR
+set prefix=(\$root)$PREFIX_GRUB_DIR
 EOF
 
 echo 'Generating GRUB image...'
