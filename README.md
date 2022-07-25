@@ -2,7 +2,7 @@ Creates a CentOS usb drive that will boot on Apple M1 systems.
 
 **Prerequisites:** Ensure ```mkosi``` and ```arch-install-scripts``` (needed for ```arch-chroot```) are installed  
 ```
-# CentOS
+# Fedora
 dnf install mkosi arch-install-scripts systemd-container gdisk qemu-user-static
 # Debian
 apt install mkosi arch-install-scripts gdisk systemd-container
