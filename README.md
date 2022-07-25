@@ -32,7 +32,7 @@ run bootcmd_usb0
 
 The usb drive is read/write and contains three partitions: ```efi, boot, and root``` (just like a normal system)  
 
-Also ```dnf``` has cross-architecture support, so you could build this on an x86_64 CentOS system no problem.  
+Also ```dnf``` has cross-architecture support, so you could build this on an x86_64 Fedora system no problem.  
 \*\*just ensure ```qemu-user-static``` is installed.   
 I don't believe other package managers (```apt``` or ```pacman```) support this feature.  
 https://github.com/systemd/mkosi/issues/138
