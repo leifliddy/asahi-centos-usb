@@ -134,11 +134,13 @@ install_usb() {
     echo "### Creating BLS (/boot/loader/entries/) entry..."
     chroot $mnt_usb /image.creation/create.bls.entry
     echo "### Enabling system services..."
-    chroot $mnt_usb systemctl enable sshd.service
+    chroot $mnt_usb systemctl enable iwd.service sshd.service systemd-networkd.service
     echo "### Disabling systemd-firstboot..."
     chroot $mnt_usb rm -f /usr/lib/systemd/system/sysinit.target.wants/systemd-firstboot.service
     echo "### Restoring centos.repo..."
     chroot $mnt_usb mv /etc/yum.repos.d/centos.repo.rpmnew /etc/yum.repos.d/centos.repo
+    echo "### Restoring epel.repo..."
+    chroot $mnt_usb mv /etc/yum.repos.d/epel.repo.rpmnew /etc/yum.repos.d/epel.repo
     rm -f  $mnt_usb/etc/machine-id
     rm -rf $mnt_usb/image.creation
     # remove .gitignore file
